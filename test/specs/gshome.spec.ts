@@ -1,7 +1,7 @@
 // gshome.spec.ts
-import GameStopHome from "../pages/gamestophome.page";
+import GameStopHome from "../pages/gshome.page";
 
-describe("GameStop Homepage", () => {
+describe("GameStop Website...", () => {
     beforeAll(async() => {
         await browser.url("https://www.gamestop.com");
     })
@@ -63,5 +63,25 @@ describe("GameStop Homepage", () => {
         await GameStopHome.emptyCartLabel.waitForDisplayed({ timeout: 3000 });
         expect(await GameStopHome.emptyCartLabel.isDisplayed()).toBe(true);
         expect(await GameStopHome.emptyCartLabel.getText()).toBe("Your Shopping Cart is Empty");
+    });
+    it("should be able to sign into your account", async () => {
+        await GameStopHome.logIntoAccount(GameStopHome.email, GameStopHome.password);
+        await GameStopHome.userAccount.waitForDisplayed({ timeout: 3000 });
+        expect(await GameStopHome.userAccount.isDisplayed()).toBe(true);
+    });
+    it("should be able to confirm the user's name", async () => {
+        await GameStopHome.userAccount.click();
+        await GameStopHome.usersName.waitForDisplayed({ timeout: 3000 });
+        let fname = await GameStopHome.usersName.getText();
+        await GameStopHome.closeAcctModal.click();
+        expect(fname).toBe("Tester");
+    });
+    it("should be able to sign out of your account", async () => {
+        await GameStopHome.signOutOfAccount();
+    });
+    it("should not be able to sign in with wrong credentials", async () => {
+        await GameStopHome.logIntoAccount("watermoc@email.com","6909nhuyg_p#a");
+        await GameStopHome.failedLoginAlert.waitForDisplayed({ timeout: 3000 });
+        expect(await GameStopHome.failedLoginAlert.isDisplayed()).toBe(true);
     });
 });
