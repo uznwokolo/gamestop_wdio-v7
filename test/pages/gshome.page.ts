@@ -1,5 +1,7 @@
 // gamestophome.page.ts
 class GameStopHome {
+    // Title
+    get pageTitle() { return $("title") }
     // Homepage
     get gamestopLogo() { return $("//a[@title='GameStop Home']") }
     get hamburgerMenu() { return $("//button[@class='navbar-toggler']") }
@@ -55,6 +57,10 @@ class GameStopHome {
     public get password() { return this._userPswd }
     public get firstname() { return this._firstName }
     
+    async title() {
+        let title = await this.pageTitle.getHTML(false);
+        return title;
+    }
 
     async logIntoAccount(email:string, paswd:string) {
         await this.signInLink.click();

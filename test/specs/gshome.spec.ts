@@ -4,7 +4,10 @@ import GameStopHome from "../pages/gshome.page";
 describe("GameStop Website...", () => {
     beforeAll(async() => {
         await browser.url("https://www.gamestop.com");
-    })
+    });
+    it("should have the correct title on the homepage", async () => {
+        expect(await GameStopHome.title()).toContain("Consoles, Collectibles, Video Games, and More");
+    });
     it("should include featured categories", async () => {
         expect(await GameStopHome.videoGames.isDisplayed()).toBe(true);
         expect(await GameStopHome.controllers.isDisplayed()).toBe(true);
